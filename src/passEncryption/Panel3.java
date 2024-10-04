@@ -89,7 +89,7 @@ public class Panel3 extends JPanel {
 					
 					//Boton modificar
 					JButton btnOption = new JButton("Continuar");
-					btnOption.setBounds(100, 369, 89, 23);
+					btnOption.setBounds(90, 369, 95, 23);
 					btnOption.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							if(opciones2.getSelection()!=null) {
@@ -125,7 +125,7 @@ public class Panel3 extends JPanel {
 					add(btnOption);
 					
 					JButton btnCancel = new JButton("Cancelar");
-					btnCancel.setBounds(260, 369, 89, 23);
+					btnCancel.setBounds(240, 369, 95, 23);
 					btnCancel.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 					
@@ -147,7 +147,7 @@ public class Panel3 extends JPanel {
 				}
 			}
 		});
-		btnModify.setBounds(162, 369, 89, 23);
+		btnModify.setBounds(162, 369, 93, 35);
 		add(btnModify);
 
 	}

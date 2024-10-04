@@ -78,7 +78,7 @@ public class PassManage {
 		FileManage.switchTabs();
 
 		
-		//TODO Ordenar los campos: array ordenado con Tertiary Collator
+		//TODO: Ordenar los campos: array ordenado con Tertiary Collator
 /*
 		List<String> sortedTertiaryCollator = new ArrayList();
 

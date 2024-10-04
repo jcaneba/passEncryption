@@ -31,9 +31,10 @@ public class JFramepassEncryption extends JFrame {
 	public static JTextArea info;
 	//Para desactivar y activar las pestanas 2 y 3
 	public static JTabbedPane tabbedPane;
+	public static Panel1 panel1;
 	public static Panel2 panel2;
 	public static Panel3 panel3;
-
+	public static Panel4 panel4;
 
 
 	/**
@@ -172,7 +173,7 @@ public class JFramepassEncryption extends JFrame {
 		contentPane.add(tabbedPane);
 
 		//Inicializar y anadir panel 1, panel 2 y panel 3 al tabbedPane
-		Panel1 panel1=new Panel1();
+		panel1=new Panel1();
 		tabbedPane.addTab("Encriptación", null, panel1, null);
 
 		panel2=new Panel2();
@@ -180,6 +181,9 @@ public class JFramepassEncryption extends JFrame {
 		
 		panel3=new Panel3();
 		tabbedPane.addTab("Gestión de contraseñas", null, panel3, null);
+		
+		panel4=new Panel4();
+		tabbedPane.addTab("Generación de contraseñas", null, panel4, null);
 		
 		//Inicializar el archivo pass.csv y el archivo temporal
 		FileManage.getFile();
