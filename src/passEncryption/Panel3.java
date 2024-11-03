@@ -99,13 +99,13 @@ public class Panel3 extends JPanel {
 									
 									//Llamada al metodo que modifica contrasenas
 									FileManage.lineUpdate("update",selectedDesc,selectedPass,encryptedPass);
-									JFramepassEncryption.info.setText("Contraseña modificada correctamente"+System.lineSeparator());
+									JFramepassEncryption.info.setText("Contraseña modificada correctamente."+System.lineSeparator());
 									
 								}else if(rbRemove.isSelected()) {
 									
 									//Llamada al metodo que borra contrasenas
 									FileManage.lineUpdate("delete",selectedDesc,selectedPass,"");
-									JFramepassEncryption.info.setText("Contraseña borrada correctamente"+System.lineSeparator());
+									JFramepassEncryption.info.setText("Contraseña borrada correctamente."+System.lineSeparator());
 									
 								}
 								
@@ -118,7 +118,7 @@ public class Panel3 extends JPanel {
 								PassManage.showPasswd("update");
 								updateUI();
 							}else {
-								JFramepassEncryption.info.setText("No se ha seleccionado ninguna opcion"+System.lineSeparator());
+								JFramepassEncryption.info.setText("No se ha seleccionado ninguna opcion."+System.lineSeparator());
 							}
 						}
 					});
@@ -143,7 +143,7 @@ public class Panel3 extends JPanel {
 					updateUI();
 
 				}else {
-					JFramepassEncryption.info.setText("No se ha seleccionado contraseña"+System.lineSeparator());
+					JFramepassEncryption.info.setText("No se ha seleccionado contraseña."+System.lineSeparator());
 				}
 			}
 		});

@@ -125,9 +125,7 @@ public class JFramepassEncryption extends JFrame {
 		SwitchTheme theme=new SwitchTheme();
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				theme.darkMode();
-				
 			}
 		});
 		menuDarkMode.add(mntmNewMenuItem_3);

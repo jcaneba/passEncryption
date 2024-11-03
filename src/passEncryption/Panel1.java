@@ -71,7 +71,7 @@ public class Panel1 extends JPanel {
 					String[] toInsert= {descr.getText(),new String(pass.getPassword())};
 					FileManage.fileWriter(toInsert);
 
-					JFramepassEncryption.info.setText("Contraseña \""+description+"\" encriptada y guardada con éxito\n");
+					JFramepassEncryption.info.setText("Contraseña \""+description+"\" encriptada y guardada con éxito."+System.lineSeparator());
 
 					//Borrar el contenido de los inputs
 					pass.setText("");

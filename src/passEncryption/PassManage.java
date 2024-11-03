@@ -1,8 +1,13 @@
 package passEncryption;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -43,23 +48,59 @@ public class PassManage {
 			//Descripcion desencriptada
 			JLabel tag = new JLabel("Password "+(n+1)+": "+decryptedDescr);
 			// Posicion del tag
-			tag.setBounds(55, y1, 194, 19);
+			tag.setBounds(25, y1, 194, 19);
 			Panel2.container2.add(tag);
 
 			//Botones para cada contrasena guardada
 			JButton mostrar = new JButton("Ver");
+			JButton copyButton = new JButton("Copiar");
 			//Posicion del boton. Aumenta en 30 la altura de cada uno
-			mostrar.setBounds(274, y1, 64, 23);
+			mostrar.setBounds(244, y1, 64, 23);
+			copyButton.setBounds(315, y1, 73, 23);
+			copyButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					StringSelection stringSelection = new StringSelection(decryptedPass);
+					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clipboard.setContents(stringSelection, null);
+					JFramepassEncryption.info.setText("Contraseña copiada al portapapeles");
+				}
+			});
+			
 			//Anadir el boton
 			Panel2.container2.add(mostrar);
+			Panel2.container2.add(copyButton);
+			
+			/*
 			//Evento click
 			mostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//Mostrar la contrasena desencriptada cuando se presiona el boton
 					Panel2.container1.setText(decryptedPass);
-					}
-				//Fin ActionListener mostrar
-				});
+				}
+			//Fin ActionListener mostrar
+			});
+			*/
+			//Eventos del ratón
+			String hiddenPass = "*".repeat(decryptedPass.length());
+			mostrar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					Panel2.container1.setText(decryptedPass);
+				}
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					Panel2.container1.setText(hiddenPass);
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					Panel2.container1.setText(hiddenPass);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					Panel2.container1.setText("");
+				}
+			});
 			//Aumenta la posicion en el eje Y para posicionarlos en linea
 			y1+=30;
 			
@@ -74,7 +115,7 @@ public class PassManage {
 		}
 		
 		
-		//Activar o desactivar las pestanas 2 y 3 si hay contrasenas
+		//Activar o desactivar las pestanas 2 y 3 si hay contraseñas
 		FileManage.switchTabs();
 
 		

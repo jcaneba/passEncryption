@@ -124,7 +124,7 @@ public class FileManage {
 			}
 			FILE_PASS_CSV=newFile;
 			
-	    }
+		}
 	
 	}
 	
@@ -146,9 +146,9 @@ public class FileManage {
 		//Filtro para escoger unicamente archivos .csv
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV FILES", "csv");
 		fileChooser.setFileFilter(filter);
-        
-        int option = fileChooser.showOpenDialog(null);
-        
+
+		int option = fileChooser.showOpenDialog(null);
+
 		if (option == JFileChooser.APPROVE_OPTION) {
 			try {
 				//TODO Validar si el archivo importado tiene el formato correcto con expresiones regulares

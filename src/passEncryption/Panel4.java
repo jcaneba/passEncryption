@@ -1,9 +1,6 @@
 package passEncryption;
 
 import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -56,19 +53,19 @@ public class Panel4 extends JPanel {
 		
 
 		JLabel tag = new JLabel("Número de caracteres");
-		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, null, 1); // Valor inicial, mínimo, máximo, paso
+		SpinnerNumberModel model = new SpinnerNumberModel(12, 1, null, 1); // Valor inicial, mínimo, máximo, paso
 		JSpinner spinner = new JSpinner(model);
-		JCheckBox checkBox1 = new JCheckBox("Mayúsculas");
-		JCheckBox checkBox2 = new JCheckBox("Minúsculas");
-		JCheckBox checkBox3 = new JCheckBox("Números");
-		JCheckBox checkBox4 = new JCheckBox("Símbolos");
+		JCheckBox checkBox1 = new JCheckBox("Mayúsculas",true);
+		JCheckBox checkBox2 = new JCheckBox("Minúsculas",true);
+		JCheckBox checkBox3 = new JCheckBox("Números",true);
+		JCheckBox checkBox4 = new JCheckBox("Símbolos",true);
 
 		tag.setBounds(60, 5, 194, 20);
 		spinner.setBounds(0, 5, 50, 20);
-		checkBox1.setBounds(0, 40, 200, 20);
-		checkBox2.setBounds(0, 60, 200, 20);
-		checkBox3.setBounds(0, 80, 200, 20);
-		checkBox4.setBounds(0, 100, 200, 20);
+		checkBox1.setBounds(0, 40, 100, 20);
+		checkBox2.setBounds(0, 60, 100, 20);
+		checkBox3.setBounds(0, 80, 80, 20);
+		checkBox4.setBounds(0, 100, 80, 20);
 		
 		// Agregar los elementos al JLabel
 		Panel4.container5.add(tag);
@@ -86,7 +83,6 @@ public class Panel4 extends JPanel {
 		
 		//Boton modificar
 		JButton btnGenerate = new JButton("Generar");
-		JButton copyButton = new JButton("Copiar");
 		JButton importButton = new JButton("Importar");
 		
 		btnGenerate.addActionListener(new ActionListener() {
@@ -109,35 +105,31 @@ public class Panel4 extends JPanel {
 					}
 					Panel4.container4.setText(newPass);
 				}else {
-					JFramepassEncryption.info.setText("No se ha seleccionado ninguna opcion"+System.lineSeparator());
+					JFramepassEncryption.info.setText("No se ha seleccionado ninguna opción."+System.lineSeparator());
 				}
-				
-			}
-		});
-		copyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String pass = Panel4.container4.getText();
-				StringSelection stringSelection = new StringSelection(pass);
-				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-				clipboard.setContents(stringSelection, null);
-				JFramepassEncryption.info.setText("Contraseña copiada al portapapeles");
 			}
 		});
 		importButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String pass = Panel4.container4.getText();
-				String[] toInsert= {"Random",pass};
-				FileManage.fileWriter(toInsert);
-				JOptionPane.showMessageDialog(null, "Contraseña importada con éxito");
+				if(pass != "") {
+					String input = JOptionPane.showInputDialog(null, "Introduce la descripción de la nueva contraseña:", "Importar contraseña", JOptionPane.PLAIN_MESSAGE);
+					if(input != null) {
+						String[] toInsert= {input,pass};
+						FileManage.fileWriter(toInsert);
+						JFramepassEncryption.info.setText("Contraseña importada con éxito."+System.lineSeparator());
+					} else {
+						JFramepassEncryption.info.setText("No se ha seleccionado ninguna opción."+System.lineSeparator());
+					}
+				}else {
+					JFramepassEncryption.info.setText("Primero genera una nueva contraseña."+System.lineSeparator());
+				}
 			}
 		});
-		btnGenerate.setBounds(162, 369, 89, 35);
-		copyButton.setBounds(115, 329, 90, 23);
-		importButton.setBounds(212, 329, 90, 23);
+		btnGenerate.setBounds(162, 329, 89, 35);
+		importButton.setBounds(162, 373, 89, 23);
 		add(btnGenerate);
-		add(copyButton);
 		add(importButton);
 	}
 }

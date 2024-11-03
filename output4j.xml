@@ -12,7 +12,7 @@
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
-  <manifest>/home/ubuntu/eclipse-workspace/passEncryption/manifest.manifest</manifest>
+  <manifest>/home/ubuntu/eclipse-workspace/passEncryption/manifest4j.manifest</manifest>
   <icon>/home/ubuntu/eclipse-workspace/passEncryption/src/resources/ico.ico</icon>
   <jre>
     <path>%JAVA_HOME%;%PATH%</path>
