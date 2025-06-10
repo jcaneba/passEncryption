@@ -1,0 +1,7 @@
+#~/.local/share/applications/passEncryption.desktop
+[Desktop Entry]
+Name=PassEncryption
+Exec=java -jar /home/ubuntu/eclipse-workspace/passEncryption/passEncryption.jar
+Type=Application
+Icon=/home/ubuntu/eclipse-workspace/passEncryption/src/resources/ico.ico
+Terminal=false

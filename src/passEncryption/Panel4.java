@@ -38,7 +38,7 @@ public class Panel4 extends JPanel {
 
 		JLabel title4 = new JLabel("Contraseña aleatoria");
 		title4.setBounds(10, 36, 400, 48);
-		title4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		title4.setFont(new Font("Tahoma", Font.BOLD, 20));
 		title4.setHorizontalAlignment(SwingConstants.CENTER);
 		add(title4);
 		
