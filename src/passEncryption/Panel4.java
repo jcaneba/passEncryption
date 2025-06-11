@@ -114,13 +114,16 @@ public class Panel4 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String pass = Panel4.container4.getText();
 				if(pass != "") {
-					String input = JOptionPane.showInputDialog(null, "Introduce la descripción de la nueva contraseña:", "Importar contraseña", JOptionPane.PLAIN_MESSAGE);
-					if(input != null) {
-						String[] toInsert= {input,pass};
+					String inputDesc = JOptionPane.showInputDialog(null, "Introduce la descripción:", "Importar nueva contraseña", JOptionPane.PLAIN_MESSAGE);
+					if (inputDesc == null) return;
+					if(inputDesc.length()>0) {
+						String inputUser = JOptionPane.showInputDialog(null, "Introduce el nombre de usuario:", "Importar nueva contraseña", JOptionPane.PLAIN_MESSAGE);
+						if (inputUser == null) return;
+						String[] toInsert= {inputDesc,inputUser,pass};
 						FileManage.fileWriter(toInsert);
 						JFramepassEncryption.info.setText("Contraseña importada con éxito."+System.lineSeparator());
 					} else {
-						JFramepassEncryption.info.setText("No se ha seleccionado ninguna opción."+System.lineSeparator());
+						JFramepassEncryption.info.setText("La descripción es obligatoria."+System.lineSeparator());
 					}
 				}else {
 					JFramepassEncryption.info.setText("Primero genera una nueva contraseña."+System.lineSeparator());

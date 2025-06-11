@@ -31,14 +31,14 @@ public class FileManage {
 	public static void getFile(){
 
 		String sistemaOperativo = System.getProperty("os.name");
-		String user=System.getProperty("user.name");
+		String user = System.getProperty("user.name");
 		String path,path2;
 		
 		//Sistema operativo Windows. Validar con expresiones regulares (Case Insensitive)
 		if(Pattern.matches(".*(?i)Windows.*", sistemaOperativo)) {
 
-			File ruta1=new File("D:\\Windows\\Users\\"+user+"\\Documents");
-			File ruta2=new File("C:\\Users\\"+user+"\\Documents");
+			File ruta1 = new File("D:\\Windows\\Users\\"+user+"\\Documents");
+			File ruta2 = new File("C:\\Users\\"+user+"\\Documents");
 
 			if(ruta1.exists() && ruta1.isDirectory() && ruta1.canRead() && ruta1.canWrite()) {
 
@@ -51,7 +51,7 @@ public class FileManage {
 				path2="C:\\Users\\"+user+"\\AppData\\Local\\Temp\\pass.csv";
 
 			}else {
-				System.out.println("No se ha encontrado ningun directorio valido para Windows. Introduce uno valido");
+				JFramepassEncryption.info.append("No se ha encontrado ningun directorio valido para Windows. Introduce uno valido");
 				changePath();
 				//Return en el metodo void para salir de la ejecucion del metodo
 				return;
@@ -70,18 +70,16 @@ public class FileManage {
 			if(ruta3.exists() && ruta3.isDirectory() && ruta3.canRead() && ruta3.canWrite()) {
 				path = "/home/"+user+"/.pass.csv";
 				FILE_PASS_CSV=new File(path);
-
 			}else {
-				System.out.println("No se ha encontrado ningun directorio valido para Linux. Introduce uno valido");
+				JFramepassEncryption.info.append("No se ha encontrado ningun directorio valido para Linux. Introduce uno valido");
 				changePath();
 				return;
 			}
-			
 		}else {
-			System.out.println("* Sistema operativo no soportado");
+			JFramepassEncryption.info.append("* Sistema operativo no soportado");
 			return;
 		}
-		
+
 		//Si el archivo no existe se crea vacio
 		if(!FILE_PASS_CSV.exists()) {
 			try {
@@ -97,14 +95,15 @@ public class FileManage {
 			JFramepassEncryption.info.append("Archivo encontrado en "+FILE_PASS_CSV.getPath()+System.lineSeparator());
 		}
 	}
-	
+
 	//Metodos para el menu
 	public static void changePath(){
-	
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Carpeta nueva");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
 		int option = fileChooser.showOpenDialog(null);
+
 		if (option == JFileChooser.APPROVE_OPTION) {
 			File newFile;
 			if(Pattern.matches(".*(?i)Windows.*", System.getProperty("os.name"))) {
@@ -112,7 +111,7 @@ public class FileManage {
 			}else{
 				newFile=new File(fileChooser.getSelectedFile().getPath()+"/.pass.csv");
 			}
-			
+
 			if(FILE_PASS_CSV.exists()) {
 				try {
 					Files.move(Paths.get(FILE_PASS_CSV.getAbsolutePath()),Paths.get(newFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
@@ -120,26 +119,20 @@ public class FileManage {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
 			}
 			FILE_PASS_CSV=newFile;
-			
 		}
-	
 	}
 	
 	public static void printFile(){
-	
 		try {
 			Desktop.getDesktop().print(FILE_PASS_CSV);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static void importFile(){
-
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Archivo CSV a importar");
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -218,11 +211,11 @@ public class FileManage {
 			List<List<String>> arraylist = new ArrayList<List<String>>();
 			
 			br = new BufferedReader(new FileReader(FILE_PASS_CSV));
-			//Lee dos veces para saltarse la cabecera (que se supone que siempre la tiene)
-			String line = br.readLine();
-			line = br.readLine();
+//			Lee dos veces para saltarse la cabecera (que se supone que siempre la tiene)
+			String line;
+//			line = br.readLine();
 			//Repetir el proceso hasta que la linea este vacia y no existan mas contrasenas
-			while (line != null) {
+			while ((line = br.readLine()) != null) {
 				//Aumentar en 1 el contador de las lineas
 				PassManage.counter++;
 				//Array que almacena los dos campos de la linea separados por comas
@@ -241,8 +234,6 @@ public class FileManage {
 				
 				//Anadir la fila al arraylist
 				arraylist.add(row);
-				//Volver a leer la siguiente linea del archivo
-				line = br.readLine();
 			}
 
 			br.close();
@@ -259,84 +250,63 @@ public class FileManage {
 	public static void fileWriter(String[] text){
 
 		String description=text[0];
-		String passwd=text[1];
+		String user=text[1];
+		String passwd=text[2];
 
 		try {
-
 			//Encriptacion: DES - BLOWFISH - AES
-
 			String encryptedDescription=StringEncrypt.aesEncrypt(StringEncrypt.blowfishEncrypt(StringEncrypt.desEncrypt(description)));
+			String encryptedUser=StringEncrypt.aesEncrypt(StringEncrypt.blowfishEncrypt(StringEncrypt.desEncrypt(user)));
 			String encryptedPass=StringEncrypt.aesEncrypt(StringEncrypt.blowfishEncrypt(StringEncrypt.desEncrypt(passwd)));
 
 			//Proceso para escribir en el archivo sin sobreescribir:
-			//Inicializar filewriter y filereader
+			//Inicializar filewriter
 			FileWriter fw = new FileWriter(FILE_PASS_CSV, true);
-			FileReader fr=new FileReader(FILE_PASS_CSV);
-
-			//Agregar cabeceras si el archivo esta vacio
-			int valor=fr.read();
-			if(valor==-1) {
-				fw.write("Description,Pass"+System.lineSeparator());
-			}
 
 			//Agregar la linea con password y descripcion
-			fw.write("\""+encryptedDescription+"\",\""+encryptedPass+"\""+System.lineSeparator());
+			fw.write("\""+encryptedDescription+"\",\""+encryptedUser+"\",\""+encryptedPass+"\""+System.lineSeparator());
 
 			//Cerrar fw y fr al acabar el proceso
 			fw.flush();
 			fw.close();
-			fr.close();
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
 		PassManage.showPasswd("update");
-		
 	}
 
 
-	public static void lineUpdate(String option,String description,String toUpdate,String newString){
-		
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(FILE_PASS_CSV));
-				BufferedWriter bw=new BufferedWriter(new FileWriter(FILE_PASS2_CSV));
-				
-				
-				String line=br.readLine();
-				line=br.readLine();
-				
-				FILE_PASS2_CSV.deleteOnExit();
-				Files.setAttribute(Paths.get(FILE_PASS2_CSV.getAbsolutePath()), "dos:hidden", true);
-				
-				bw.write("Description,Pass"+System.lineSeparator());
-				while(line!=null) {
-					if(!line.equals("\""+description+"\",\""+toUpdate+"\"")) {
-							bw.write(line+System.lineSeparator());
-					}else {
-						
-						if(option.equals("update")) {
-							
-							String campos[]=line.split(",");
-							bw.write(campos[0]+",\""+newString+"\""+System.lineSeparator());
-							
-						}
+	public static void lineUpdate(String option,int lineId,String newString){
+		try {
+			int i=0;
+			BufferedReader br = new BufferedReader(new FileReader(FILE_PASS_CSV));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PASS2_CSV));
+			String line;
+
+			FILE_PASS2_CSV.deleteOnExit();
+			Files.setAttribute(Paths.get(FILE_PASS2_CSV.getAbsolutePath()), "dos:hidden", true);
+
+			while((line=br.readLine()) !=null) {
+				if(i != lineId) {
+					bw.write(line+System.lineSeparator());
+				}else {
+					if(option.equals("update")) {
+						String campos[]=line.split(",");
+						bw.write(campos[0]+",\""+campos[1]+",\""+newString+"\""+System.lineSeparator());
 					}
-					
-					line=br.readLine();
 				}
-				
-				br.close();
-				bw.close();
-				
-				
-				Files.move(Paths.get(FILE_PASS2_CSV.getAbsolutePath()),Paths.get(FILE_PASS_CSV.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
-
-			} catch (IOException e) {
-				e.printStackTrace();
+				i++;
 			}
+			br.close();
+			bw.close();
 
+			Files.move(Paths.get(FILE_PASS2_CSV.getAbsolutePath()),Paths.get(FILE_PASS_CSV.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
 
 
 	public static void switchTabs() {
@@ -352,13 +322,9 @@ public class FileManage {
 
 
 	public static void initFile() {
-		
 		//TODO Archivo de configuracion .ini con la libreria Ini4J
 		Ini init=new Ini();
 		init.clear();
-		
-		
 	}
-	
 
 }

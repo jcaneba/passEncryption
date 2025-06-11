@@ -26,29 +26,40 @@ public class Panel1 extends JPanel {
 		title1.setHorizontalAlignment(SwingConstants.CENTER);
 		title1.setBounds(10, 37, 400, 48);
 		add(title1);
-		
-		JLabel lblPass = new JLabel("Contraseña");
-		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPass.setBounds(70, 198, 106, 30);
-		add(lblPass);
 
-		JLabel lblDescription = new JLabel("Descripción");
+		JLabel lblDescription = new JLabel("Descripción*");
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDescription.setBounds(70, 157, 106, 30);
 		add(lblDescription);
+		
+		JLabel lblUser = new JLabel("Usuario");
+		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUser.setBounds(70, 197, 106, 30);
+		add(lblUser);
+		
+		JLabel lblPass = new JLabel("Contraseña*");
+		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPass.setBounds(70, 237, 106, 30);
+		add(lblPass);
 
 		JTextField descr = new JTextField();
 		lblDescription.setLabelFor(descr);
 		descr.setColumns(10);
 		descr.setBounds(211, 163, 126, 20);
 		add(descr);
+		
+		JTextField us = new JTextField();
+		lblUser.setLabelFor(us);
+		us.setColumns(10);
+		us.setBounds(211, 203, 126, 20);
+		add(us);
 
 		JPasswordField pass = new JPasswordField();
-		pass.setBounds(211, 204, 126, 20);
+		pass.setBounds(211, 243, 126, 20);
 		add(pass);
 
 		JLabel lblVal = new JLabel("");
-		lblVal.setBounds(70, 241, 289, 20);
+		lblVal.setBounds(70, 270, 289, 20);
 		lblVal.setForeground(Color.red);
 		add(lblVal);
 
@@ -60,22 +71,25 @@ public class Panel1 extends JPanel {
 				//Borrar el contenido de la etiqueta y la informacion
 				lblVal.setText("");
 
-				String passwd=new String(pass.getPassword());
 				String description=descr.getText();
+				String user=us.getText();
+				String passwd=new String(pass.getPassword());
 
 				if(passwd.equals("") || description.equals("")) {
 					lblVal.setText("Rellena todos los campos");
 				}else {
 					
 					// Pass y descripcion a encriptar
-					String[] toInsert= {descr.getText(),new String(pass.getPassword())};
+					String[] toInsert= {description,user,passwd};
 					FileManage.fileWriter(toInsert);
 
 					JFramepassEncryption.info.setText("Contraseña \""+description+"\" encriptada y guardada con éxito."+System.lineSeparator());
 
 					//Borrar el contenido de los inputs
-					pass.setText("");
+					
 					descr.setText("");
+					us.setText("");
+					pass.setText("");
 
 				}
 			}

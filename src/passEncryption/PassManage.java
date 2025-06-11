@@ -22,31 +22,31 @@ public class PassManage {
 	
 	
 	public static void showPasswd(String option){
-		
 		opciones = new ButtonGroup();
-		
+
 		List<List<String>> arraylist=FileManage.fileReader();
 		if(option.equals("update")) {
 			//Si se quiere actualizar los contenedores, se borran previamente todas las contrasenas para escribirlas de nuevo
 			Panel2.container2.removeAll();
 			Panel3.container3.removeAll();
 		}
-		
+
 		//Coordenadas Y de las lineas de cada contenedor
 		int y1=5;
 		int y2=5;
-		
+
 		//Bucle
 		for(int n=0;n<PassManage.counter;n++) {
 			String encryptedDescr=arraylist.get(n).get(0);
-			String encryptedPass=arraylist.get(n).get(1);
-
+			String encryptedUser=arraylist.get(n).get(1);
+			String encryptedPass=arraylist.get(n).get(2);
 			String decryptedDescr=StringEncrypt.desDecrypt(StringEncrypt.blowfishDecrypt(StringEncrypt.aesDecrypt(encryptedDescr)));
+			String decryptedUser=StringEncrypt.desDecrypt(StringEncrypt.blowfishDecrypt(StringEncrypt.aesDecrypt(encryptedUser)));
 			String decryptedPass=StringEncrypt.desDecrypt(StringEncrypt.blowfishDecrypt(StringEncrypt.aesDecrypt(encryptedPass)));
 
 			//Panel 2
 			//Descripcion desencriptada
-			JLabel tag = new JLabel("Password "+(n+1)+": "+decryptedDescr);
+			JLabel tag = new JLabel(decryptedDescr+": "+decryptedUser);
 			// Posicion del tag
 			tag.setBounds(25, y1, 194, 19);
 			Panel2.container2.add(tag);
@@ -66,21 +66,11 @@ public class PassManage {
 					JFramepassEncryption.info.setText("Contraseña copiada al portapapeles");
 				}
 			});
-			
+
 			//Anadir el boton
 			Panel2.container2.add(mostrar);
 			Panel2.container2.add(copyButton);
-			
-			/*
-			//Evento click
-			mostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//Mostrar la contrasena desencriptada cuando se presiona el boton
-					Panel2.container1.setText(decryptedPass);
-				}
-			//Fin ActionListener mostrar
-			});
-			*/
+
 			//Eventos del ratón
 			String hiddenPass = "*".repeat(decryptedPass.length());
 			mostrar.addMouseListener(new MouseAdapter() {
@@ -103,8 +93,7 @@ public class PassManage {
 			});
 			//Aumenta la posicion en el eje Y para posicionarlos en linea
 			y1+=30;
-			
-			
+
 			//Panel 3
 			JRadioButton rbpass = new JRadioButton(decryptedDescr);
 			rbpass.setName(encryptedPass);
